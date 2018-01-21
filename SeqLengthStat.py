@@ -36,4 +36,6 @@ if __name__ == '__main__':
         parser.print_help()
         sys.exit(1)
 
+    length_stat(args.input, args.type)
+
 
