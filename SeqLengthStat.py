@@ -14,7 +14,7 @@ def length_stat(path, type):
             if type == 'fastq':
                 q = np.array(record.letter_annotations["phred_quality"])
                 pe = 10**(-0.1 * q)
-                errors.append(length[-1] * pe)
+                errors.append(length[-1] * np.mean(pe))
 
     length = np.array(length)
     count = len(length)
@@ -23,13 +23,15 @@ def length_stat(path, type):
     mean = np.mean(length)
     median = np.median(length)
     total = np.sum(length)
+    error_base = np.sum(errors)
     print("There are {} reads".format(count))
     print("In total, there are {} bases".format(total))
     print("The mean of reads is {}".format(mean))
     print("The median of reads is {}".format(median))
     print("longest length is {} and the shortest length is {}".format(max_len, min_len))
     if type == 'fastq':
-        print('Estimated error rates is {}'.format(np.sum(errors)/total))
+        print('Total errors is {}'.format(error_base))
+        print('Estimated error rates is {}'.format(error_base/total))
 
 if __name__ == '__main__':
 
