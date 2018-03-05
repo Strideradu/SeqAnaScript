@@ -7,6 +7,23 @@ import random
 from collections import Counter, defaultdict
 
 
+def weighted_sample(population, weights, k):
+    """
+    Alternative way to previous implementation.
+
+    This function draws a random sample of length k
+    from the sequence 'population' according to the
+    list of weights
+    """
+    sample = set()
+    population = list(population)
+    weights = list(weights)
+    while len(sample) < k:
+        choice = random.choices(population, weights)
+        if choice not in sample:
+            sample.add(choice)
+    return list(sample)
+
 def get_pdf(lens):
     kde_pdf = gaussian_kde(lens)
     return kde_pdf
@@ -18,28 +35,24 @@ def get_coverage(lens, genome_len):
 
 def random_downsample(path, output, target, genome_len):
     length = []
-    len_rec = defaultdict(list)
     with open(path) as f:
         records = list(SeqIO.parse(f, 'fasta'))
         for record in records:
             seq_len = len(record.seq)
             length.append(seq_len)
-            len_rec[seq_len].append(record)
 
     cov = get_coverage(length, genome_len)
     pdf = get_pdf(length)
 
     ratio = target/cov
     size = int(len(length) * ratio)
-    resample = pdf.resample(size)
-    count = Counter(resample.tolist())
+    weight = [pdf.pdf(x) for x in length]
     downsample = []
-    for seq_len in count.keys():
-        num = count[seq_len]
-        downsample.extend(random.sample(len_rec, num))
+    downsample = weighted_sample(records, weight, size)
+    down_len = [len(x.seq) for x in downsample]
 
-    print("After downsample, the total read length is {}".format(np.sum(resample)))
-    print("Coverage is {}".format(np.sum(resample)/genome_len))
+    print("After downsample, the total read length is {}".format(np.sum(down_len)))
+    print("Coverage is {}".format(np.sum(down_len)/genome_len))
 
     SeqIO.write(downsample, output, 'fasta')
 
