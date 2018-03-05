@@ -32,7 +32,7 @@ def random_downsample(path, output, target, genome_len):
     ratio = target/cov
     size = int(len(length) * ratio)
     resample = pdf.resample(size)
-    count = Counter(resample)
+    count = Counter(resample.tolist())
     downsample = []
     for seq_len in count.keys():
         num = count[seq_len]
