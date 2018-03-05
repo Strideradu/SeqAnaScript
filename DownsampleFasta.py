@@ -4,6 +4,7 @@ from Bio import SeqIO
 import numpy as np
 from scipy.stats.kde import gaussian_kde
 import random
+from collections import Counter, defaultdict
 
 
 def get_pdf(lens):
@@ -17,27 +18,28 @@ def get_coverage(lens, genome_len):
 
 def random_downsample(path, output, target, genome_len):
     length = []
+    len_rec = defaultdict(list)
     with open(path) as f:
         records = list(SeqIO.parse(f, 'fasta'))
         for record in records:
-            length.append(len(record.seq))
+            seq_len = len(record.seq)
+            length.append(seq_len)
+            len_rec[seq_len].append(record)
 
     cov = get_coverage(length, genome_len)
     pdf = get_pdf(length)
 
     ratio = target/cov
-    p_0 = 1/(np.max(length) - np.min(length))
+    size = int(len(length) * ratio)
+    resample = pdf.resample(size)
+    count = Counter(resample)
     downsample = []
-    down_len = []
-    for record in records:
-        read_len = len(record.seq)
-        rd = pdf.pdf(read_len)/p_0 * ratio
-        if random.random() <= rd:
-            downsample.append(record)
-            down_len.append(read_len)
+    for seq_len in count.keys():
+        num = count[seq_len]
+        downsample.extend(random.sample(len_rec, num))
 
-    print("After downsample, the total read length is {}".format(np.sum(down_len)))
-    print("Coverage is {}".format(np.sum(down_len)/genome_len))
+    print("After downsample, the total read length is {}".format(np.sum(resample)))
+    print("Coverage is {}".format(np.sum(resample)/genome_len))
 
     SeqIO.write(downsample, output, 'fasta')
 
