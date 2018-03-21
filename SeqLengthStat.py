@@ -23,7 +23,8 @@ def length_stat(path, type):
     mean = np.mean(length)
     median = np.median(length)
     total = np.sum(length)
-    error_base = np.sum(errors)
+    if type == 'fastq':
+        error_base = np.sum(errors)
     print("There are {} reads".format(count))
     print("In total, there are {} bases".format(total))
     print("The mean of reads is {}".format(mean))
