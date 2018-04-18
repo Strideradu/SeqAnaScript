@@ -14,6 +14,7 @@ if __name__ == '__main__':
     parser.add_argument("fasta", help="path of fasta file", type=str)
     parser.add_argument("output", help="path of output file", type=str)
     parser.add_argument("id_list", help="path of id list file", type=str)
+    parser.add_argument("result", help="path of id list file", type=str)
 
     try:
         args = parser.parse_args()
@@ -78,11 +79,24 @@ if __name__ == '__main__':
                     for text in texts:
                         print(text, file=f1)
 
-    imgplot = plt.imshow(count[:, :])
-    plt.savefig("matrix_count.png")
+    count_result = []
+    sin_count_result = []
+    for ix, iy in np.ndindex(count.shape):
+        if count[ix][iy]!=0:
+            count_result.append((count[ix][iy], ix, iy))
 
-    plt.figure()
-    imgplot = plt.imshow(sin_count[:, :])
-    plt.savefig("sin_matrix_count.png")
+    for ix, iy in np.ndindex(sin_count.shape):
+        if sin_count[ix][iy]!=0:
+            sin_count_result.append((sin_count[ix][iy], ix, iy))
+
+    with open(args.result, 'w') as f:
+        count_result.sort(reverse = True)
+        for result in count_result:
+            print("{}\t{}\t{}\t{}".format(result[1], result[2], result[0], False), file=f)
+
+        sin_count_result.sort(reverse=True)
+        for result in sin_count_result:
+            print("{}\t{}\t{}\t{}".format(result[1], result[2], result[0], True), file=f)
+
 
 
