@@ -39,12 +39,12 @@ class sam_align(object):
         self.qual = sp[10]
         #self.nm = int(sp[12].split(':')[2])
 
-        if len(sp) > 16:
+        if len(sp) > 15:
             self.sa = True
-            if sp[-1][:2] != "SA":
+            if sp[15][:2] != "SA":
                 print(text)
             else:
-                sa_sp = sp[-1].split(':')[2].split(',')
+                sa_sp = sp[15].split(':')[2].split(',')
                 self.sa_rname = sa_sp[0]
                 self.sa_pos = int(sa_sp[1])
                 self.sa_strand = sa_sp[2]
