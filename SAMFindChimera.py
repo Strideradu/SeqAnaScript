@@ -65,13 +65,13 @@ if __name__ == '__main__':
                             max_pos = max(record.pos, record.sa_pos)
 
                             if max_pos - min_pos >= 1000:
-                                sin_count[min_pos][max_pos] += 1
+                                sin_count[min_pos// 500 + 1][max_pos// 500 + 1] += 1
 
                 min_pos = np.min(pos)
                 max_pos = np.max(pos)
 
                 if max_pos - min_pos >= 1000:
-                    count[min_pos][max_pos] += 1
+                    count[min_pos//500 + 1][max_pos// 500 + 1] += 1
 
                 if is_chimera:
                     print(key, file=f2)
