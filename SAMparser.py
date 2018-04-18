@@ -41,13 +41,16 @@ class sam_align(object):
 
         if len(sp) > 16:
             self.sa = True
-            sa_sp = sp[-1].split(':')[2].split(',')
-            self.sa_rname = sa_sp[0]
-            self.sa_pos = int(sa_sp[1])
-            self.sa_strand = sa_sp[2]
-            self.sa_cigar = sa_sp[3]
-            self.sa_mapq = sa_sp[4]
-            self.sa_nm = sa_sp[5]
+            if sp[-1][:2] != "SA":
+                print(text)
+            else:
+                sa_sp = sp[-1].split(':')[2].split(',')
+                self.sa_rname = sa_sp[0]
+                self.sa_pos = int(sa_sp[1])
+                self.sa_strand = sa_sp[2]
+                self.sa_cigar = sa_sp[3]
+                self.sa_mapq = sa_sp[4]
+                self.sa_nm = sa_sp[5]
 
 
 def text_to_sam(text):
