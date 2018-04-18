@@ -37,7 +37,7 @@ class sam_align(object):
         self.tlen = int(sp[8])
         self.seq = sp[9]
         self.qual = sp[10]
-        self.nm = int(sp[12].split(':')[2])
+        #self.nm = int(sp[12].split(':')[2])
 
         if len(sp) > 16:
             self.sa = True
