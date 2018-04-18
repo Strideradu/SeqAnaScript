@@ -33,7 +33,7 @@ if __name__ == '__main__':
                 tlen = record.tlen
 
                 if id!='*':
-                    aligns[id][tlen].append(record)
+                    aligns[record.qname][tlen].append(record)
 
     records = SeqIO.parse(args.fasta, 'fasta')
     for record in records:
