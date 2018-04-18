@@ -78,11 +78,11 @@ if __name__ == '__main__':
                     for text in texts:
                         print(text, file=f1)
 
-    imgplot = plt.imshow(count[:, :, 0])
+    imgplot = plt.imshow(count[:, :])
     plt.savefig("matrix_count.png")
 
     plt.figure()
-    imgplot = plt.imshow(sin_count[:, :, 0])
+    imgplot = plt.imshow(sin_count[:, :])
     plt.savefig("sin_matrix_count.png")
 
 
