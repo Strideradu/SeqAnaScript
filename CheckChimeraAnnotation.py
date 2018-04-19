@@ -2,6 +2,7 @@ import dill as pickle
 import argparse
 import sys
 import intervaltree
+from collections import defaultdict
 
 
 def load_obj(filename):
