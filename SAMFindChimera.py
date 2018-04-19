@@ -5,11 +5,11 @@ from Bio import SeqIO
 from collections import defaultdict
 import SAMparser
 import numpy as np
-import pickle
+import dill as pickle
 
 def save_obj(obj, filename):
     with open(filename, 'wb') as f:
-        pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(obj, f)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
