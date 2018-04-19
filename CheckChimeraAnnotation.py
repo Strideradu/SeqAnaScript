@@ -11,6 +11,7 @@ def load_obj(filename):
 
 
 def build_intervaltree(input):
+    gene_pos = {}
     tree = intervaltree.IntervalTree()
     with open(input) as f:
         for line in f:
@@ -21,11 +22,12 @@ def build_intervaltree(input):
                     end = max(int(sp[5]), int(sp[4]))
                     name = sp[8]
                     tree[start:end + 1] = name
+                    gene_pos[name] = (start, end + 1)
 
-    return tree
+    return tree, gene_pos
 
 
-def check_annotation(tree, input, dict, output):
+def check_annotation(tree, gene_pos, input, dict, output):
     with open(args.output, "w") as fout:
         with open(input) as f:
             for line in f:
@@ -61,7 +63,7 @@ def check_annotation(tree, input, dict, output):
 
                                     result[name] = (min(align[0], result[name][0]), max(align[0] + 150, result[name][1]))
                     for gene, pos in result.items():
-                        print("{}\t{}\t{}".format(gene, pos[0], pos[1]), file=fout)
+                        print("{}\t{}\t{}\t{}\t{}".format(gene, gene_pos[gene][0], gene_pos[gene][1], pos[0], pos[1]), file=fout)
 
 
 
@@ -80,6 +82,6 @@ if __name__ == '__main__':
         sys.exit(1)
 
     aligns = load_obj(args.input2)
-    tree = build_intervaltree(args.annotation)
+    tree, gene_pos = build_intervaltree(args.annotation)
 
-    result = check_annotation(tree, args.input1, aligns, args.output)
+    result = check_annotation(tree, gene_pos, args.input1, aligns, args.output)
