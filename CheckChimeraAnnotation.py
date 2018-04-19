@@ -81,6 +81,6 @@ if __name__ == '__main__':
 
     result = check_annotation(tree, args.input1, aligns)
 
-    with open(aligns.output, "w") as fout:
+    with open(args.output, "w") as fout:
         for gene, pos in result.items():
             print("{}\t{}\t{}".format(gene, pos[0], pos[1]), file=fout)
