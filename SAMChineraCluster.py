@@ -184,7 +184,7 @@ if __name__ == '__main__':
 
         for x0 in x:
             for y0 in y:
-                count[x0][y0] += 1
+                count[x0.data][y0.data] += 1
 
     count_result = []
     for ix, iy in np.ndindex(count.shape):
