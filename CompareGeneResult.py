@@ -19,14 +19,14 @@ if __name__ == '__main__':
         for line in f:
             line = line.strip()
             sp = line.split()
-            ref_gene_pos[sp[6]] = (int(sp[9]), int(sp[10]))
+            ref_gene_pos[sp[5]] = (int(sp[9]), int(sp[10]))
 
 
     with open(args.input) as f:
         for line in f:
             line = line.strip()
             sp = line.split()
-            gene = sp[6]
+            gene = sp[5]
             x = range(int(sp[9]), int(sp[10]))
             y = range(ref_gene_pos[gene][0], ref_gene_pos[gene][1])
             ovelap_len = len(set(x) & set(y))
