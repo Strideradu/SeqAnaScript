@@ -28,7 +28,11 @@ if __name__ == '__main__':
             sp = line.split()
             gene = sp[5]
             x = range(int(sp[9]), int(sp[10]))
-            y = range(ref_gene_pos[gene][0], ref_gene_pos[gene][1])
-            ovelap_len = len(set(x) & set(y))
-            if ovelap_len == 0:
+            if gene in ref_gene_pos:
+                y = range(ref_gene_pos[gene][0], ref_gene_pos[gene][1])
+                ovelap_len = len(set(x) & set(y))
+                if ovelap_len == 0:
+                    print(line)
+
+            else:
                 print(line)
