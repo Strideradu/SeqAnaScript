@@ -20,7 +20,7 @@ def weighted_sample(population, weights, k):
     weights = list(weights)
     while len(sample) < k:
         choice = random.choices(population, weights)
-        if choice not in sample:
+        if choice.id not in sample:
             sample.add(choice)
     return list(sample)
 
