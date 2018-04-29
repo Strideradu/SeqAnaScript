@@ -1,10 +1,10 @@
 import argparse
-import sys
-from Bio import SeqIO
-import numpy as np
-from scipy.stats.kde import gaussian_kde
 import random
-from collections import Counter, defaultdict
+import sys
+
+import numpy as np
+from Bio import SeqIO
+from scipy.stats.kde import gaussian_kde
 
 
 def weighted_sample(population, weights, k):
@@ -42,10 +42,13 @@ def random_downsample(path, output, target, genome_len):
             seq_len = len(record.seq)
             length.append(seq_len)
 
-    cov = get_coverage(length, genome_len)
+    if genome_len == 1:
+        ratio = target
+    else:
+        cov = get_coverage(length, genome_len)
+        ratio = target / cov
     pdf = get_pdf(length)
 
-    ratio = target / cov
     size = int(len(length) * ratio)
     weight = [pdf.pdf(x) for x in length]
     downsample = []
@@ -65,6 +68,7 @@ if __name__ == '__main__':
     parser.add_argument("target", help="target coverage", type=int)
     parser.add_argument("--genome-path", help="path of genome file", type=str, default=None)
     parser.add_argument("--genome-len", help="length of genome", type=int, default=None)
+    parser.add_argument("--ratio", help="ratio to sample", type=int, default=None)
 
     try:
         args = parser.parse_args()
@@ -73,12 +77,15 @@ if __name__ == '__main__':
         parser.print_help()
         sys.exit(1)
 
-    if not (args.genome_path) and not (args.genome_len):
-        print("Must provide genome file path or genome length")
+    if not (args.genome_path) and not (args.genome_len) and not (args.ratio):
+        print("Must provide genome file path or genome length or sample ratio")
         parser.print_help()
         sys.exit(1)
 
-    if args.genome_path:
+    if args.ratio:
+        genome_len = 1
+        args.target = args.ratio
+    elif args.genome_path:
         record = SeqIO.read(args.genome_path, 'fasta')
         genome_len = len(record.seq)
     else:
