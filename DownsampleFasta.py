@@ -68,7 +68,7 @@ if __name__ == '__main__':
     parser.add_argument("target", help="target coverage", type=int)
     parser.add_argument("--genome-path", help="path of genome file", type=str, default=None)
     parser.add_argument("--genome-len", help="length of genome", type=int, default=None)
-    parser.add_argument("--ratio", help="ratio to sample", type=int, default=None)
+    parser.add_argument("--ratio", help="ratio to sample", type=float, default=None)
 
     try:
         args = parser.parse_args()
