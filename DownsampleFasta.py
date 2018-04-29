@@ -19,9 +19,10 @@ def weighted_sample(population, weights, k):
     population = list(population)
     weights = list(weights)
     while len(sample) < k:
-        choice = random.choices(population, weights)
-        if choice.id not in sample:
-            sample.add(choice)
+        choices = random.choices(population, weights)
+        for choice in choices:
+            if choice not in sample:
+                sample.add(choice)
     return list(sample)
 
 
