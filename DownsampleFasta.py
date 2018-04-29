@@ -15,15 +15,17 @@ def weighted_sample(population, weights, k):
     from the sequence 'population' according to the
     list of weights
     """
-    sample = set()
+    sample_id = set()
+    result = []
     population = list(population)
     weights = list(weights)
-    while len(sample) < k:
+    while len(sample_id) < k:
         choices = random.choices(population, weights)
         for choice in choices:
-            if choice not in sample:
-                sample.add(choice)
-    return list(sample)
+            if choice.id not in sample_id:
+                sample_id.add(choice.id)
+                result.append(choice)
+    return result
 
 
 def get_pdf(lens):
