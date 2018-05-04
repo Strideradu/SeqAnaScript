@@ -64,17 +64,17 @@ def check_annotation(tree, gene_pos, count, clusters, output):
                         name2 = interval2.data
                         if 'nsRNA' in name1:
                             name1, name2 = name2, name1
-                            cluster1, cluster2 = cluster2, cluster1
+                            clu1, clu2 = cluster2, cluster1
                             print("t\t{}\talign1\t{}\t{}\t{}\t{}\t{}\talign2\t{}\t{}\t{}\t{}\t{}".format(freq,
-                                                                                                     clusters[cluster1][
+                                                                                                     clusters[clu1][
                                                                                                          0],
-                                                                                                     clusters[cluster1][
+                                                                                                     clusters[clu1][
                                                                                                          1], name1,
                                                                                                      gene_pos[name1][0],
                                                                                                      gene_pos[name1][1],
-                                                                                                     clusters[cluster2][
+                                                                                                     clusters[clu2][
                                                                                                          0],
-                                                                                                     clusters[cluster2][
+                                                                                                     clusters[clu2][
                                                                                                          1], name2,
                                                                                                      gene_pos[name2][0],
                                                                                                      gene_pos[name2][
