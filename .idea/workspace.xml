@@ -48,11 +48,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SAMChineraCluster.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="SAMChineraCluster.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/SAMChineraCluster.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1768">
-              <caret line="112" selection-start-line="112" selection-end-line="118" selection-end-column="19" />
+            <state relative-caret-position="-2465">
+              <caret line="19" selection-start-line="19" selection-end-line="23" selection-end-column="49" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -63,8 +63,8 @@
       <file leaf-file-name="CompareGeneResult.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CompareGeneResult.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="19" column="31" lean-forward="true" selection-start-line="19" selection-start-column="31" selection-end-line="19" selection-end-column="31" />
+            <state relative-caret-position="306">
+              <caret line="19" column="31" selection-start-line="19" selection-start-column="31" selection-end-line="19" selection-end-column="31" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -72,11 +72,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DownsampleFasta.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="DownsampleFasta.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/DownsampleFasta.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="21" column="29" lean-forward="true" selection-start-line="21" selection-start-column="29" selection-end-line="21" selection-end-column="29" />
+            <state relative-caret-position="1173">
+              <caret line="75" column="4" selection-start-line="75" selection-start-column="4" selection-end-line="80" selection-end-column="19" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -87,7 +87,7 @@
       <file leaf-file-name="CheckChimeraAnnotation.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CheckChimeraAnnotation.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1190">
+            <state relative-caret-position="1054">
               <caret line="74" column="4" selection-start-line="74" selection-start-column="4" selection-end-line="74" selection-end-column="84" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
@@ -99,8 +99,8 @@
       <file leaf-file-name="SAMparser.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/SAMparser.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="816">
-              <caret line="48" column="29" selection-start-line="48" selection-start-column="21" selection-end-line="48" selection-end-column="29" />
+            <state relative-caret-position="136">
+              <caret line="33" column="26" lean-forward="true" selection-start-line="33" selection-start-column="26" selection-end-line="33" selection-end-column="26" />
             </state>
           </provider>
         </entry>
@@ -127,9 +127,9 @@
         <option value="$PROJECT_DIR$/SAMparser.py" />
         <option value="$PROJECT_DIR$/SAMFindChimera.py" />
         <option value="$PROJECT_DIR$/CheckChimeraAnnotation.py" />
-        <option value="$PROJECT_DIR$/SAMChineraCluster.py" />
         <option value="$PROJECT_DIR$/CompareGeneResult.py" />
         <option value="$PROJECT_DIR$/DownsampleFasta.py" />
+        <option value="$PROJECT_DIR$/SAMChineraCluster.py" />
       </list>
     </option>
   </component>
@@ -142,7 +142,7 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="-10" />
     <option name="width" value="1935" />
     <option name="height" value="1095" />
@@ -168,7 +168,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../CSE PHD/2018SS331TA/project5" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../DNA_sequence_classification" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunDashboard">
@@ -197,7 +197,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -587,19 +587,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SAMparser.py">
+    <entry file="file://$PROJECT_DIR$/CompareGeneResult.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="816">
-          <caret line="48" column="29" selection-start-line="48" selection-start-column="21" selection-end-line="48" selection-end-column="29" />
+        <state relative-caret-position="306">
+          <caret line="19" column="31" selection-start-line="19" selection-start-column="31" selection-end-line="19" selection-end-column="31" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CheckChimeraAnnotation.py">
+    <entry file="file://$PROJECT_DIR$/DownsampleFasta.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1190">
-          <caret line="74" column="4" selection-start-line="74" selection-start-column="4" selection-end-line="74" selection-end-column="84" />
+        <state relative-caret-position="1173">
+          <caret line="75" column="4" selection-start-line="75" selection-start-column="4" selection-end-line="80" selection-end-column="19" />
           <folding>
-            <element signature="e#0#21#0" expanded="true" />
+            <element signature="e#0#15#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -614,30 +617,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/SAMparser.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="33" column="26" lean-forward="true" selection-start-line="33" selection-start-column="26" selection-end-line="33" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CheckChimeraAnnotation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1054">
+          <caret line="74" column="4" selection-start-line="74" selection-start-column="4" selection-end-line="74" selection-end-column="84" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/SAMChineraCluster.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1768">
-          <caret line="112" selection-start-line="112" selection-end-line="118" selection-end-column="19" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CompareGeneResult.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="19" column="31" lean-forward="true" selection-start-line="19" selection-start-column="31" selection-end-line="19" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DownsampleFasta.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="21" column="29" lean-forward="true" selection-start-line="21" selection-start-column="29" selection-end-line="21" selection-end-column="29" />
+        <state relative-caret-position="-2465">
+          <caret line="19" selection-start-line="19" selection-end-line="23" selection-end-column="49" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>

@@ -16,12 +16,12 @@ def build_intervaltree(input):
         for line in f:
             if line[0] != "#":
                 sp = line.strip().split()
-                if sp[3] == "277694":
-                    start = min(int(sp[5]), int(sp[4]))
-                    end = max(int(sp[5]), int(sp[4]))
-                    name = sp[8]
-                    tree[start:end + 1] = name
-                    gene_pos[name] = (start, end + 1)
+
+                start = min(int(sp[5]), int(sp[4]))
+                end = max(int(sp[5]), int(sp[4]))
+                name = sp[8]
+                tree[start:end + 1] = name
+                gene_pos[name] = (start, end + 1)
 
     return tree, gene_pos
 
@@ -108,7 +108,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("input", help="path of input file", type=str)
     parser.add_argument("annotation", help="path of file that has annotation", type=str)
-    parser.add_argument("output", help="path of file that has annotation", type=str)
+    parser.add_argument("output", help="path of output", type=str)
     # parser.add_argument("fasta", help="path of fasta file", type=str)
 
     try:
