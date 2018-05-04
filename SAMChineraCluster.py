@@ -16,12 +16,12 @@ def build_intervaltree(input):
         for line in f:
             if line[0] != "#":
                 sp = line.strip().split()
-
-                start = min(int(sp[5]), int(sp[4]))
-                end = max(int(sp[5]), int(sp[4]))
-                name = sp[8]
-                tree[start:end + 1] = name
-                gene_pos[name] = (start, end + 1)
+                if sp[3] == "277694":
+                    start = min(int(sp[5]), int(sp[4]))
+                    end = max(int(sp[5]), int(sp[4]))
+                    name = sp[8]
+                    tree[start:end + 1] = name
+                    gene_pos[name] = (start, end + 1)
 
     return tree, gene_pos
 
