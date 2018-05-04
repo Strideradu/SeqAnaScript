@@ -258,6 +258,6 @@ if __name__ == '__main__':
 
     count_result.sort(reverse=True)
 
-    gene_tree, gene_pos = build_intervaltree(args.annotation, args.annotations2)
+    gene_tree, gene_pos = build_intervaltree(args.annotation, args.annotation2)
 
     check_annotation(gene_tree, gene_pos, count_result, clusters, args.output)
