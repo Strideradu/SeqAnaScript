@@ -9,7 +9,7 @@ import dill as pickle
 import intervaltree
 
 
-def build_intervaltree(input):
+def build_intervaltree(input, input2 = None):
     gene_pos = {}
     tree = intervaltree.IntervalTree()
     with open(input) as f:
@@ -22,6 +22,17 @@ def build_intervaltree(input):
                     name = sp[8]
                     tree[start:end + 1] = name
                     gene_pos[name] = (start, end + 1)
+
+    if input2:
+        with open(input2) as f:
+            for line in f:
+                sp = line.strip().split()
+
+                start = min(int(sp[1]), int(sp[2]))
+                end = max(int(sp[1]), int(sp[2]))
+                name = sp[3]
+                tree[start:end + 1] = name
+                gene_pos[name] = (start, end + 1)
 
     return tree, gene_pos
 
@@ -51,7 +62,10 @@ def check_annotation(tree, gene_pos, count, clusters, output):
                     for interval2 in res2:
                         name1 = interval1.data
                         name2 = interval2.data
-                        print("f\t{}\talign1\t{}\t{}\t{}\t{}\t{}\talign2\t{}\t{}\t{}\t{}\t{}".format(freq,
+                        if 'nsRNA' in name1:
+                            name1, name2 = name2, name1
+                            cluster1, cluster2 = cluster2, cluster1
+                            print("t\t{}\talign1\t{}\t{}\t{}\t{}\t{}\talign2\t{}\t{}\t{}\t{}\t{}".format(freq,
                                                                                                      clusters[cluster1][
                                                                                                          0],
                                                                                                      clusters[cluster1][
@@ -65,6 +79,56 @@ def check_annotation(tree, gene_pos, count, clusters, output):
                                                                                                      gene_pos[name2][0],
                                                                                                      gene_pos[name2][
                                                                                                          1]), file=fout)
+
+                        elif 'nsRNA' in name2:
+                            print("t\t{}\talign1\t{}\t{}\t{}\t{}\t{}\talign2\t{}\t{}\t{}\t{}\t{}".format(freq,
+                                                                                                         clusters[
+                                                                                                             cluster1][
+                                                                                                             0],
+                                                                                                         clusters[
+                                                                                                             cluster1][
+                                                                                                             1], name1,
+                                                                                                         gene_pos[
+                                                                                                             name1][0],
+                                                                                                         gene_pos[
+                                                                                                             name1][1],
+                                                                                                         clusters[
+                                                                                                             cluster2][
+                                                                                                             0],
+                                                                                                         clusters[
+                                                                                                             cluster2][
+                                                                                                             1], name2,
+                                                                                                         gene_pos[
+                                                                                                             name2][0],
+                                                                                                         gene_pos[
+                                                                                                             name2][
+                                                                                                             1]),
+                                  file=fout)
+
+                        else:
+                            print("f\t{}\talign1\t{}\t{}\t{}\t{}\t{}\talign2\t{}\t{}\t{}\t{}\t{}".format(freq,
+                                                                                                         clusters[
+                                                                                                             cluster1][
+                                                                                                             0],
+                                                                                                         clusters[
+                                                                                                             cluster1][
+                                                                                                             1], name1,
+                                                                                                         gene_pos[
+                                                                                                             name1][0],
+                                                                                                         gene_pos[
+                                                                                                             name1][1],
+                                                                                                         clusters[
+                                                                                                             cluster2][
+                                                                                                             0],
+                                                                                                         clusters[
+                                                                                                             cluster2][
+                                                                                                             1], name2,
+                                                                                                         gene_pos[
+                                                                                                             name2][0],
+                                                                                                         gene_pos[
+                                                                                                             name2][
+                                                                                                             1]),
+                                  file=fout)
 
             else:
                 if len(res1) != 0:
@@ -109,6 +173,7 @@ if __name__ == '__main__':
     parser.add_argument("input", help="path of input file", type=str)
     parser.add_argument("annotation", help="path of file that has annotation", type=str)
     parser.add_argument("output", help="path of output", type=str)
+    parser.add_argument("--annotation2", help="path of small RNA file", default=None, type=str)
     # parser.add_argument("fasta", help="path of fasta file", type=str)
 
     try:
@@ -193,6 +258,6 @@ if __name__ == '__main__':
 
     count_result.sort(reverse=True)
 
-    gene_tree, gene_pos = build_intervaltree(args.annotation)
+    gene_tree, gene_pos = build_intervaltree(args.annotation, args.annotations2)
 
     check_annotation(gene_tree, gene_pos, count_result, clusters, args.output)
