@@ -174,7 +174,7 @@ if __name__ == '__main__':
     parser.add_argument("input", help="path of input file", type=str)
     parser.add_argument("annotation", help="path of file that has annotation", type=str)
     parser.add_argument("output", help="path of output", type=str)
-    parser.add_argument("--reverse", help="strand", default=False, type=bool)
+    parser.add_argument("--reverse", help="strand", default=False, action='store_true')
     parser.add_argument("--annotation2", help="path of small RNA file", default=None, type=str)
     # parser.add_argument("fasta", help="path of fasta file", type=str)
 
