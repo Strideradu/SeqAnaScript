@@ -27,7 +27,18 @@ class sam_align(object):
         sp = self.text.split("\t")
 
         self.qname = sp[0]
-        self.flag = str(bin(int(sp[1])))
+        self.flag = format(int(sp[1]), '10b')
+        # parse flag
+
+        self.rc = self.flag[6] == '1'
+        if self.flag[4] == '1':
+            self.pair = 1
+        elif self.flag[3] == '1':
+            self.pair = 2
+        else:
+            self.pair = 0
+
+
         self.rname = sp[2]
         self.pos = int(sp[3])
         self.mapq = int(sp[4])

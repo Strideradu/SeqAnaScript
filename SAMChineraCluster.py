@@ -9,7 +9,7 @@ import dill as pickle
 import intervaltree
 
 
-def build_intervaltree(input, input2 = None):
+def build_intervaltree(input, input2 = None, rc =  False):
     gene_pos = {}
     tree = intervaltree.IntervalTree()
     with open(input) as f:
@@ -17,22 +17,23 @@ def build_intervaltree(input, input2 = None):
             if line[0] != "#":
                 sp = line.strip().split()
                 if sp[3] == "277694":
-                    start = min(int(sp[5]), int(sp[4]))
-                    end = max(int(sp[5]), int(sp[4]))
-                    name = sp[8]
-                    tree[start:end + 1] = name
-                    gene_pos[name] = (start, end + 1)
+                    if (sp[6] == '-' and rc) or (sp[6] == '+' and not rc):
+                        start = min(int(sp[5]), int(sp[4]))
+                        end = max(int(sp[5]), int(sp[4]))
+                        name = sp[8]
+                        tree[start:end + 1] = name
+                        gene_pos[name] = (start, end + 1)
 
     if input2:
         with open(input2) as f:
             for line in f:
                 sp = line.strip().split()
-
-                start = min(int(sp[1]), int(sp[2]))
-                end = max(int(sp[1]), int(sp[2]))
-                name = sp[3]
-                tree[start:end + 1] = name
-                gene_pos[name] = (start, end + 1)
+                if (sp[5] == '-' and rc) or (sp[5] == '+' and not rc):
+                    start = min(int(sp[1]), int(sp[2]))
+                    end = max(int(sp[1]), int(sp[2]))
+                    name = sp[3]
+                    tree[start:end + 1] = name
+                    gene_pos[name] = (start, end + 1)
 
     return tree, gene_pos
 
@@ -173,6 +174,7 @@ if __name__ == '__main__':
     parser.add_argument("input", help="path of input file", type=str)
     parser.add_argument("annotation", help="path of file that has annotation", type=str)
     parser.add_argument("output", help="path of output", type=str)
+    parser.add_argument("--reverse", help="strand", default=False, type=bool)
     parser.add_argument("--annotation2", help="path of small RNA file", default=None, type=str)
     # parser.add_argument("fasta", help="path of fasta file", type=str)
 
@@ -189,11 +191,13 @@ if __name__ == '__main__':
             if line[0] != "@":
                 record = SAMparser.text_to_sam(line)
 
-                id = record.rname
-                tlen = record.tlen
+                if args.reverse == record.rc:
 
-                if id != '*':
-                    aligns[record.qname][tlen].append(record)
+                    id = record.rname
+                    tlen = record.tlen
+
+                    if id != '*':
+                        aligns[record.qname][tlen].append(record)
 
     pos_aligns = []
     for key, tlen_dict in aligns.items():
@@ -258,6 +262,6 @@ if __name__ == '__main__':
 
     count_result.sort(reverse=True)
 
-    gene_tree, gene_pos = build_intervaltree(args.annotation, args.annotation2)
+    gene_tree, gene_pos = build_intervaltree(args.annotation, args.annotation2, args.reverse)
 
     check_annotation(gene_tree, gene_pos, count_result, clusters, args.output)
