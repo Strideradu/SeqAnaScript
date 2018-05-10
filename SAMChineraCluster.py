@@ -60,8 +60,9 @@ def check_annotation(tree, gene_pos, count, clusters):
         res1 = tree[clusters[cluster1][0]:clusters[cluster1][1]]
         res2 = tree[clusters[cluster2][0]:clusters[cluster2][1]]
 
-        freqs.append(freq)
+
         if (len(res1) == 0 and len(res2) == 0):
+            freqs.append(freq)
             label.append('f')
             clus1_start.append(clusters[cluster1][0])
             clus1_end.append(clusters[cluster1][1])
@@ -83,6 +84,7 @@ def check_annotation(tree, gene_pos, count, clusters):
                     if 'nsRNA' in name1:
                         name1, name2 = name2, name1
                         clu1, clu2 = cluster2, cluster1
+                        freqs.append(freq)
                         label.append('t')
                         clus1_start.append(clusters[clu1][0])
                         clus1_end.append(clusters[clu1][1])
@@ -96,6 +98,7 @@ def check_annotation(tree, gene_pos, count, clusters):
                         gene2_end.append(gene_pos[name2][1])
 
                     elif 'nsRNA' in name2:
+                        freqs.append(freq)
                         label.append('t')
                         clus1_start.append(clusters[cluster1][0])
                         clus1_end.append(clusters[cluster1][1])
@@ -110,6 +113,7 @@ def check_annotation(tree, gene_pos, count, clusters):
 
 
                     else:
+                        freqs.append(freq)
                         label.append('f')
                         clus1_start.append(clusters[cluster1][0])
                         clus1_end.append(clusters[cluster1][1])
@@ -126,6 +130,7 @@ def check_annotation(tree, gene_pos, count, clusters):
                 for interval in res1:
                     name = interval.data
 
+                    freqs.append(freq)
                     label.append('u')
                     clus1_start.append(clusters[cluster1][0])
                     clus1_end.append(clusters[cluster1][1])
@@ -143,6 +148,7 @@ def check_annotation(tree, gene_pos, count, clusters):
                 for interval in res2:
                     name = interval.data
 
+                    freqs.append(freq)
                     label.append('u')
                     clus1_start.append(clusters[cluster2][0])
                     clus1_end.append(clusters[cluster2][1])
