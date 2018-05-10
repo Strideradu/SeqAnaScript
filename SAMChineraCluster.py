@@ -56,7 +56,7 @@ def check_annotation(tree, gene_pos, count, clusters):
 
         cluster1 = ct[1]
         cluster2 = ct[2]
-        freq = ct[0]
+        freq = ct[0]/2
         res1 = tree[clusters[cluster1][0]:clusters[cluster1][1]]
         res2 = tree[clusters[cluster2][0]:clusters[cluster2][1]]
 
