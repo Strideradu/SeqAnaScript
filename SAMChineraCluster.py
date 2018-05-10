@@ -270,4 +270,4 @@ if __name__ == '__main__':
     result.to_csv(args.output, columns=['label', 'freq', 'cluster1_start', 'cluster1_end',
                        'gene1', 'gene1_start', 'gene1_end',
                        'cluster2_start', 'cluster2_end',
-                       'gene2', 'gene2_start', 'gene2_end'], sep='\t')
+                       'gene2', 'gene2_start', 'gene2_end'], sep='\t', index=False)
