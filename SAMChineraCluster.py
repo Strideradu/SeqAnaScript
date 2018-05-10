@@ -1,15 +1,15 @@
 import argparse
 import sys
-import os
-from Bio import SeqIO
 from collections import defaultdict
-import SAMparser
-import numpy as np
-import dill as pickle
+
 import intervaltree
+import numpy as np
+import pandas as pd
+
+import SAMparser
 
 
-def build_intervaltree(input, input2 = None, rc =  False):
+def build_intervaltree(input, input2=None, rc=False):
     gene_pos = {}
     tree = intervaltree.IntervalTree()
     with open(input) as f:
@@ -38,135 +38,129 @@ def build_intervaltree(input, input2 = None, rc =  False):
     return tree, gene_pos
 
 
-def check_annotation(tree, gene_pos, count, clusters, output):
-    with open(output, "w") as fout:
-        for ct in count:
+def check_annotation(tree, gene_pos, count, clusters):
+    label = []
+    freqs = []
+    clus1_start = []
+    clus1_end = []
+    gene1 = []
+    gene1_start = []
+    gene1_end = []
+    clus2_start = []
+    clus2_end = []
+    gene2 = []
+    gene2_start = []
+    gene2_end = []
 
-            cluster1 = ct[1]
-            cluster2 = ct[2]
-            freq = ct[0]
-            res1 = tree[clusters[cluster1][0]:clusters[cluster1][1]]
-            res2 = tree[clusters[cluster2][0]:clusters[cluster2][1]]
+    for ct in count:
 
-            if (len(res1) == 0 and len(res2) == 0):
-                print(
-                    "f\t{}\talign1\t{}\t{}\t{}\t{}\t{}\talign2\t{}\t{}\t{}\t{}\t{}".format(freq, clusters[cluster1][0],
-                                                                                           clusters[cluster1][1], "*",
-                                                                                           "*", "*",
-                                                                                           clusters[cluster2][0],
-                                                                                           clusters[cluster2][1], "*",
-                                                                                           "*", "*"), file=fout)
-                continue
+        cluster1 = ct[1]
+        cluster2 = ct[2]
+        freq = ct[0]
+        res1 = tree[clusters[cluster1][0]:clusters[cluster1][1]]
+        res2 = tree[clusters[cluster2][0]:clusters[cluster2][1]]
 
-            elif (len(res1) != 0 and len(res2) != 0):
-                for interval1 in res1:
-                    for interval2 in res2:
-                        name1 = interval1.data
-                        name2 = interval2.data
-                        if 'nsRNA' in name1:
-                            name1, name2 = name2, name1
-                            clu1, clu2 = cluster2, cluster1
-                            print("t\t{}\talign1\t{}\t{}\t{}\t{}\t{}\talign2\t{}\t{}\t{}\t{}\t{}".format(freq,
-                                                                                                     clusters[clu1][
-                                                                                                         0],
-                                                                                                     clusters[clu1][
-                                                                                                         1], name1,
-                                                                                                     gene_pos[name1][0],
-                                                                                                     gene_pos[name1][1],
-                                                                                                     clusters[clu2][
-                                                                                                         0],
-                                                                                                     clusters[clu2][
-                                                                                                         1], name2,
-                                                                                                     gene_pos[name2][0],
-                                                                                                     gene_pos[name2][
-                                                                                                         1]), file=fout)
+        freqs.append(freq)
+        if (len(res1) == 0 and len(res2) == 0):
+            label.append('f')
+            clus1_start.append(clusters[cluster1][0])
+            clus1_end.append(clusters[cluster1][1])
+            gene1.append(None)
+            gene1_start.append(None)
+            gene1_end.append(None)
+            clus2_start.append(clusters[cluster2][0])
+            clus2_end.append(clusters[cluster2][1])
+            gene2.append(None)
+            gene2_start.append(None)
+            gene2_end.append(None)
 
-                        elif 'nsRNA' in name2:
-                            print("t\t{}\talign1\t{}\t{}\t{}\t{}\t{}\talign2\t{}\t{}\t{}\t{}\t{}".format(freq,
-                                                                                                         clusters[
-                                                                                                             cluster1][
-                                                                                                             0],
-                                                                                                         clusters[
-                                                                                                             cluster1][
-                                                                                                             1], name1,
-                                                                                                         gene_pos[
-                                                                                                             name1][0],
-                                                                                                         gene_pos[
-                                                                                                             name1][1],
-                                                                                                         clusters[
-                                                                                                             cluster2][
-                                                                                                             0],
-                                                                                                         clusters[
-                                                                                                             cluster2][
-                                                                                                             1], name2,
-                                                                                                         gene_pos[
-                                                                                                             name2][0],
-                                                                                                         gene_pos[
-                                                                                                             name2][
-                                                                                                             1]),
-                                  file=fout)
 
-                        else:
-                            print("f\t{}\talign1\t{}\t{}\t{}\t{}\t{}\talign2\t{}\t{}\t{}\t{}\t{}".format(freq,
-                                                                                                         clusters[
-                                                                                                             cluster1][
-                                                                                                             0],
-                                                                                                         clusters[
-                                                                                                             cluster1][
-                                                                                                             1], name1,
-                                                                                                         gene_pos[
-                                                                                                             name1][0],
-                                                                                                         gene_pos[
-                                                                                                             name1][1],
-                                                                                                         clusters[
-                                                                                                             cluster2][
-                                                                                                             0],
-                                                                                                         clusters[
-                                                                                                             cluster2][
-                                                                                                             1], name2,
-                                                                                                         gene_pos[
-                                                                                                             name2][0],
-                                                                                                         gene_pos[
-                                                                                                             name2][
-                                                                                                             1]),
-                                  file=fout)
+        elif (len(res1) != 0 and len(res2) != 0):
+            for interval1 in res1:
+                for interval2 in res2:
+                    name1 = interval1.data
+                    name2 = interval2.data
+                    if 'nsRNA' in name1:
+                        name1, name2 = name2, name1
+                        clu1, clu2 = cluster2, cluster1
+                        label.append('t')
+                        clus1_start.append(clusters[clu1][0])
+                        clus1_end.append(clusters[clu1][1])
+                        gene1.append(name1)
+                        gene1_start.append(gene_pos[name1][0])
+                        gene1_end.append(gene_pos[name1][1])
+                        clus2_start.append(clusters[clu2][0])
+                        clus2_end.append(clusters[clu2][1])
+                        gene2.append(name2)
+                        gene2_start.append(gene_pos[name2][0])
+                        gene2_end.append(gene_pos[name2][1])
+
+                    elif 'nsRNA' in name2:
+                        label.append('t')
+                        clus1_start.append(clusters[cluster1][0])
+                        clus1_end.append(clusters[cluster1][1])
+                        gene1.append(name1)
+                        gene1_start.append(gene_pos[name1][0])
+                        gene1_end.append(gene_pos[name1][1])
+                        clus2_start.append(clusters[cluster2][0])
+                        clus2_end.append(clusters[cluster2][1])
+                        gene2.append(name2)
+                        gene2_start.append(gene_pos[name2][0])
+                        gene2_end.append(gene_pos[name2][1])
+
+
+                    else:
+                        label.append('f')
+                        clus1_start.append(clusters[cluster1][0])
+                        clus1_end.append(clusters[cluster1][1])
+                        gene1.append(name1)
+                        gene1_start.append(gene_pos[name1][0])
+                        gene1_end.append(gene_pos[name1][1])
+                        clus2_start.append(clusters[cluster2][0])
+                        clus2_end.append(clusters[cluster2][1])
+                        gene2.append(name2)
+                        gene2_start.append(gene_pos[name2][0])
+                        gene2_end.append(gene_pos[name2][1])
+        else:
+            if len(res1) != 0:
+                for interval in res1:
+                    name = interval.data
+
+                    label.append('u')
+                    clus1_start.append(clusters[cluster1][0])
+                    clus1_end.append(clusters[cluster1][1])
+                    gene1.append(name)
+                    gene1_start.append(gene_pos[name][0])
+                    gene1_end.append(gene_pos[name][1])
+                    clus2_start.append(clusters[cluster2][0])
+                    clus2_end.append(clusters[cluster2][1])
+                    gene2.append(None)
+                    gene2_start.append(None)
+                    gene2_end.append(None)
 
             else:
-                if len(res1) != 0:
-                    for interval in res1:
-                        name = interval.data
 
-                        print("t\t{}\talign1\t{}\t{}\t{}\t{}\t{}\talign2\t{}\t{}\t{}\t{}\t{}".format(freq,
-                                                                                                     clusters[cluster1][
-                                                                                                         0],
-                                                                                                     clusters[cluster1][
-                                                                                                         1], name,
-                                                                                                     gene_pos[name][0],
-                                                                                                     gene_pos[name][1],
-                                                                                                     clusters[cluster2][
-                                                                                                         0],
-                                                                                                     clusters[cluster2][
-                                                                                                         1], "*","*","*"), file=fout)
+                for interval in res2:
+                    name = interval.data
 
-                else:
+                    label.append('u')
+                    clus1_start.append(clusters[cluster2][0])
+                    clus1_end.append(clusters[cluster2][1])
+                    gene1.append(name)
+                    gene1_start.append(gene_pos[name][0])
+                    gene1_end.append(gene_pos[name][1])
+                    clus2_start.append(clusters[cluster1][0])
+                    clus2_end.append(clusters[cluster1][1])
+                    gene2.append(None)
+                    gene2_start.append(None)
+                    gene2_end.append(None)
 
-                    for interval in res2:
-                        name = interval.data
+    df = pd.DataFrame({'label': label, 'freq': freqs, 'cluster1_start': clus1_start, 'cluster1_end': clus1_end,
+                       'gene1': gene1, 'gene1_start': gene1_start, 'gene1_end': gene1_end,
+                       'cluster2_start': clus2_start, 'cluster2_end': clus2_end,
+                       'gene2': gene2, 'gene2_start': gene2_start, 'gene2_end': gene2_end})
 
-                        print("t\t{}\talign1\t{}\t{}\t{}\t{}\t{}\talign2\t{}\t{}\t{}\t{}\t{}".format(freq,
-                                                                                                     clusters[cluster2][
-                                                                                                         0],
-                                                                                                     clusters[cluster2][
-                                                                                                         1], name,
-                                                                                                     gene_pos[name][0],
-                                                                                                     gene_pos[name][1],
-                                                                                                     clusters[cluster1][
-                                                                                                         0],
-                                                                                                     clusters[cluster1][
-                                                                                                         1], "*", "*",
-                                                                                                     "*"), file=fout)
-
-
+    return df
 
 
 if __name__ == '__main__':
@@ -264,4 +258,7 @@ if __name__ == '__main__':
 
     gene_tree, gene_pos = build_intervaltree(args.annotation, args.annotation2, args.reverse)
 
-    check_annotation(gene_tree, gene_pos, count_result, clusters, args.output)
+    result = check_annotation(gene_tree, gene_pos, count_result, clusters)
+
+    result.sort_values(['gene2', 'freq'], ascending=[True, False])
+    result.to_csv(args.output)
