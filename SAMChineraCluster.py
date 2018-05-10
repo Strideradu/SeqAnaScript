@@ -266,5 +266,8 @@ if __name__ == '__main__':
 
     result = check_annotation(gene_tree, gene_pos, count_result, clusters)
 
-    result.sort_values(['gene2', 'freq'], ascending=[True, False])
-    result.to_csv(args.output)
+    result = result.sort_values(['gene2', 'freq'], ascending=[True, False])
+    result.to_csv(args.output, columns=['label', 'freq', 'cluster1_start', 'cluster1_end',
+                       'gene1', 'gene1_start', 'gene1_end',
+                       'cluster2_start', 'cluster2_end',
+                       'gene2', 'gene2_start', 'gene2_end'], sep='\t')
