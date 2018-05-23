@@ -81,7 +81,7 @@ def check_annotation(tree, gene_pos, count, clusters):
                 for interval2 in res2:
                     name1 = interval1.data
                     name2 = interval2.data
-                    if 'nsRNA' in name1:
+                    if 'nsRNA' in name1 and 'nsRNA' not in name2:
                         name1, name2 = name2, name1
                         clu1, clu2 = cluster2, cluster1
                         freqs.append(freq)
@@ -97,7 +97,7 @@ def check_annotation(tree, gene_pos, count, clusters):
                         gene2_start.append(gene_pos[name2][0])
                         gene2_end.append(gene_pos[name2][1])
 
-                    elif 'nsRNA' in name2:
+                    elif 'nsRNA' in name2 and 'nsRNA' not in name1:
                         freqs.append(freq)
                         label.append('t')
                         clus1_start.append(clusters[cluster1][0])
