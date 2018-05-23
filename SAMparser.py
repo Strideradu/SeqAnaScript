@@ -30,7 +30,10 @@ class sam_align(object):
         self.flag = format(int(sp[1]), '10b')
         # parse flag
 
-        self.rc = self.flag[6] == '1'
+        if self.flag[6] == '1':
+            self.rc = True
+        else:
+            self.rc = False
         if self.flag[4] == '1':
             self.pair = 1
         elif self.flag[3] == '1':
@@ -59,7 +62,10 @@ class sam_align(object):
                 sa_sp = sp[15].split(':')[2].split(',')
                 self.sa_rname = sa_sp[0]
                 self.sa_pos = int(sa_sp[1])
-                self.sa_strand = sa_sp[2]
+                if sa_sp[2] == "-":
+                    self.sa_strand = True
+                else:
+                    self.sa_strand = False
                 self.sa_cigar = sa_sp[3]
                 self.sa_mapq = sa_sp[4]
                 self.sa_nm = sa_sp[5]

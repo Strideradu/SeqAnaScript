@@ -216,7 +216,7 @@ if __name__ == '__main__':
                 pos.append(record.pos)
                 texts.append(record.text)
                 if record.sa:
-                    if record.sa_rname == record.rname:
+                    if record.sa_rname == record.rname and args.reverse == record.sa_strand:
                         pos.append(record.sa_pos)
 
         min_pos = np.min(pos)
@@ -226,12 +226,12 @@ if __name__ == '__main__':
             pos_aligns.append((min_pos, min_pos, max_pos))
             pos_aligns.append((max_pos, min_pos, max_pos))
 
-    clusters = [[0, 0]]
+    clusters = [[pos_aligns[0][0], pos_aligns[0][0] + 150]]
     last = 0
     pos_aligns.sort()
     for aligns in pos_aligns:
         align_pos, _, _ = aligns
-        if align_pos >= last + 150:
+        if align_pos + 150 >= last:
             clusters.append([align_pos, align_pos + 150])
             last = align_pos + 150
 
