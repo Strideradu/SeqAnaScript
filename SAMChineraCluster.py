@@ -196,7 +196,7 @@ if __name__ == '__main__':
                     id = record.rname
                     tlen = record.tlen
 
-                    if id != '*':
+                    if id != '*' and record.cigar != '*':
                         aligns[record.qname][tlen].append(record)
 
     pos_aligns = []
@@ -226,12 +226,12 @@ if __name__ == '__main__':
             pos_aligns.append((min_pos, min_pos, max_pos))
             pos_aligns.append((max_pos, min_pos, max_pos))
 
-    clusters = [[pos_aligns[0][0], pos_aligns[0][0] + 150]]
     last = 0
     pos_aligns.sort()
+    clusters = [[pos_aligns[0][0], pos_aligns[0][0] + 150]]
     for aligns in pos_aligns:
         align_pos, _, _ = aligns
-        if align_pos + 150 >= last:
+        if align_pos >= last:
             clusters.append([align_pos, align_pos + 150])
             last = align_pos + 150
 
@@ -271,3 +271,5 @@ if __name__ == '__main__':
                        'gene1', 'gene1_start', 'gene1_end',
                        'cluster2_start', 'cluster2_end',
                        'gene2', 'gene2_start', 'gene2_end'], sep='\t', index=False)
+
+
