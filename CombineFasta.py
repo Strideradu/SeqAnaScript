@@ -21,7 +21,7 @@ def combine_files(args):
             continue
 
     if len(output) > 0:
-        SeqIO.write(output, args.output, format=args.format)
+        SeqIO.write(output, args.output, format=args.out_format)
 
 
 if __name__ == '__main__':
@@ -29,10 +29,13 @@ if __name__ == '__main__':
     parser.add_argument("input", help="path of the folder", type=str)
     parser.add_argument("output", help="path of output file", type=str)
     parser.add_argument("--format", help="combine what format file", default='fasta', type=str)
+    parser.add_argument("--out_format", help="format of output, default is same as the format arg", default=None, type=str)
 
     try:
         args = parser.parse_args()
         assert os.path.isdir(args.input) is True
+        if not args.out_format:
+            args.out_format = args.format
 
     except:
         parser.print_help()
