@@ -15,7 +15,7 @@ def combine_files(args):
     output = []
     for file in files:
         try:
-            records = SeqIO.parse(file, format=args.format)
+            records = SeqIO.parse(os.path.join(args.input,file), format=args.format)
             output += list(records)
         except:
             continue
