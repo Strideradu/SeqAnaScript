@@ -40,3 +40,5 @@ if __name__ == '__main__':
     except:
         parser.print_help()
         sys.exit(1)
+
+    combine_files(args)
